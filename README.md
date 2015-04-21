@@ -1,7 +1,7 @@
 docker-mopidy
 =============
 
-Containerized **[Mopidy](https://www.mopidy.com/)** music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
+Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
 
 
 Features
@@ -34,7 +34,7 @@ General usage (see [mopidy commands](https://docs.mopidy.com/en/latest/command/)
           -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
           -o soundcloud/auth_token=TOKEN
 
-Replace `USERNAME`, `PASSWORD`, `TOKEN` accordingly:
+Most elements are optional (see some examples below). Replace `USERNAME`, `PASSWORD`, `TOKEN` accordingly if needed, or disable services (e.g., `-o spotify/enabled=false`):
 
   * For *Spotify* you'll need a *Premium* account.
   * For *Google Music* use your Google account (if you have *2-Step Authentication*, generate an [app specific password](https://security.google.com/settings/security/apppasswords)).
@@ -49,7 +49,7 @@ Volumes:
 
   * `/var/lib/mopidy/media` - Path to directory with local media files (optional).
   * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
-  * `/dev/snd` - Used to share ALSA socket and play audio.
+  * `/dev/snd` - Used to share ALSA socket and play audio along with `--lxc-conf` (see http://stackoverflow.com/q/28985714/167897).
 
 ### Example using HTTP client to stream local files
 

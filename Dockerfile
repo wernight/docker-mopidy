@@ -12,7 +12,8 @@ RUN apt-key add /tmp/mopidy.gpg
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mopidy \
     mopidy-soundcloud \
-    mopidy-spotify
+    mopidy-spotify \
+    gstreamer0.10-alsa
 
 # Install more extensions via PIP.
 ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
