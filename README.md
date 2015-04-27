@@ -24,9 +24,7 @@ Usage
 
 ### PulseAudio over network
 
-First to make [audio from from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/).
-
-If you have X11 you may for example do:
+First to make [audio from from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/); so if you have X11 you may for example do:
 
  1. Install [PulseAudio Preferences](http://freedesktop.org/software/pulseaudio/paprefs/). Debian/Ubuntu users can do this:
 
