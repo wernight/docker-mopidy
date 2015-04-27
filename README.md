@@ -1,4 +1,4 @@
-docker-mopidy
+Docker Mopidy
 =============
 
 Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
@@ -14,7 +14,7 @@ Features
       * [Mopidy-SoundClound](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-soundcloud) for **[SoundCloud](https://soundcloud.com/stream)**
       * [Mopidy-YouTube](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-youtube) for **[YouTube](https://www.youtube.com)**
   * With [Mopidy-Moped](https://docs.mopidy.com/en/latest/ext/web/#mopidy-moped) web extension.
-  * Runs as `mopidy` user inside the container.
+  * Runs as `mopidy` user inside the container (for security reasons).
 
 You may install additional [backend extensions](https://docs.mopidy.com/en/latest/ext/backends/).
 
