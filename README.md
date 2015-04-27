@@ -78,19 +78,19 @@ Volumes:
 
   * `/var/lib/mopidy/media` - Path to directory with local media files (optional).
   * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
-  * `/dev/snd` - Used to share ALSA socket and play audio along with `--lxc-conf` (see http://stackoverflow.com/q/28985714/167897).
 
 #### Example using HTTP client to stream local files
 
- 1. Give read access to your audio files to user 102 (`mopidy`), group 29 (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
+ 1. Give read access to your audio files to user **102** (`mopidy`), group **29** (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
  2. Index local files:
 
-        $ docker run --rm -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local -p 6800:6800 wernight/mopidy local scan
+        $ docker run --rm -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local wernight/mopidy local scan
+
  3. Start the server:
 
-        $ docker run -d -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local -p 6800:6800 wernight/mopidy
+        $ docker run -d -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local -p 6680:6680 wernight/mopidy
 
- 4. Browse to http://localhost:6800/
+ 4. Browse to [http://localhost:6680/](http://localhost:6680/)
 
 #### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
