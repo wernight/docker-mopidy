@@ -22,10 +22,30 @@ You may install additional [backend extensions](https://docs.mopidy.com/en/lates
 Usage
 -----
 
+First for [audio in a docker container](http://stackoverflow.com/q/28985714/167897) to work, enabled [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/). If you have X11 you may for example do:
+
+ 1. Install [PulseAudio Preferences](http://freedesktop.org/software/pulseaudio/paprefs/). Debian/Ubuntu users can do this:
+
+        $ sudo apt-get install paprefs
+
+ 2. Launch `paprefs` (PulseAudio Preferences) > "*Network Server*" tab > Check "*Enable network access to local sound devices*" (you may check "*Don't require authentication*" to avoid mounting cookie file described below).
+
+ 3. Restart PulseAudio
+
+        $ sudo service pulseaudio restart
+
+    or
+
+        $ pulseaudio -k
+        $ pulseaudio --start
+
+    On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
+
 General usage (see [mopidy commands](https://docs.mopidy.com/en/latest/command/)):
 
     $ docker run -d \
-          -v /dev/snd:/dev/snd --lxc-conf='lxc.cgroup.devices.allow = c 116:* rwm' \
+          -e PULSE_SERVER=tcp:$(hostname -i):4713 \
+          -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
           -v $PWD/media:/var/lib/mopidy/media:ro \
           -v $PWD/local:/var/lib/mopidy/local \
           -p 6600:6600 -p 6680:6680 \
@@ -44,6 +64,11 @@ Ports:
 
   * 6600 - MPD server
   * 6680 - HTTP server
+
+Environment variables:
+
+  * `PULSE_SERVER` - PulseAudio server socket.
+  * `PULSE_COOKIE_DATA` - Hexadecimal encoded PulseAudio cookie commonly at `~/.config/pulse/cookie`.
 
 Volumes:
 

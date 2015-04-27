@@ -28,13 +28,16 @@ RUN pip install \
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Run as mopidy user
-#RUN useradd --system --uid 377 -M --shell /usr/sbin/nologin mopidy
-USER mopidy
-
 # Default configuration
-RUN mkdir -p ~/.config/mopidy
 ADD mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
+RUN chown mopidy:audio -R /var/lib/mopidy/.config
+
+# Start helper script
+ADD mopidy.sh /mopidy.sh
+RUN chown mopidy:audio /mopidy.sh
+
+# Run as mopidy user
+USER mopidy
 
 VOLUME /var/lib/mopidy/local
 VOLUME /var/lib/mopidy/media
@@ -42,4 +45,4 @@ VOLUME /var/lib/mopidy/media
 EXPOSE 6600
 EXPOSE 6680
 
-ENTRYPOINT ["/usr/bin/mopidy"]
+ENTRYPOINT ["/mopidy.sh"]
