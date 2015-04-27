@@ -22,7 +22,11 @@ You may install additional [backend extensions](https://docs.mopidy.com/en/lates
 Usage
 -----
 
-First for [audio in a docker container](http://stackoverflow.com/q/28985714/167897) to work, enabled [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/). If you have X11 you may for example do:
+### PulseAudio over network
+
+First to make [audio from from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/).
+
+If you have X11 you may for example do:
 
  1. Install [PulseAudio Preferences](http://freedesktop.org/software/pulseaudio/paprefs/). Debian/Ubuntu users can do this:
 
@@ -41,7 +45,7 @@ First for [audio in a docker container](http://stackoverflow.com/q/28985714/1678
 
     On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
 
-General usage (see [mopidy commands](https://docs.mopidy.com/en/latest/command/)):
+### General usage
 
     $ docker run -d \
           -e PULSE_SERVER=tcp:$(hostname -i):4713 \
@@ -54,6 +58,8 @@ General usage (see [mopidy commands](https://docs.mopidy.com/en/latest/command/)
           -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
           -o soundcloud/auth_token=TOKEN
 
+See [mopidy's command](https://docs.mopidy.com/en/latest/command/) for possible additional options.
+
 Most elements are optional (see some examples below). Replace `USERNAME`, `PASSWORD`, `TOKEN` accordingly if needed, or disable services (e.g., `-o spotify/enabled=false`):
 
   * For *Spotify* you'll need a *Premium* account.
@@ -62,8 +68,8 @@ Most elements are optional (see some examples below). Replace `USERNAME`, `PASSW
 
 Ports:
 
-  * 6600 - MPD server
-  * 6680 - HTTP server
+  * 6600 - MPD server (if you use for example ncmpcpp client)
+  * 6680 - HTTP server (if you use your browser as client)
 
 Environment variables:
 
@@ -76,7 +82,7 @@ Volumes:
   * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
   * `/dev/snd` - Used to share ALSA socket and play audio along with `--lxc-conf` (see http://stackoverflow.com/q/28985714/167897).
 
-### Example using HTTP client to stream local files
+#### Example using HTTP client to stream local files
 
  1. Give read access to your audio files to user 102 (`mopidy`), group 29 (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
  2. Index local files:
@@ -88,7 +94,7 @@ Volumes:
 
  4. Browse to http://localhost:6800/
 
-### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
+#### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
     $ docker run --name mopidy -d wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp --host mopidy
