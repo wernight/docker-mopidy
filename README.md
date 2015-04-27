@@ -101,4 +101,4 @@ Volumes:
 Feedbacks
 ---------
 
-Having more issues? [Report a bug on GitHub](https://github.com/wernight/docker-mopidy/issues).
+Having more issues? [Report a bug on GitHub](https://github.com/wernight/docker-mopidy/issues). Also if you need some additional extensions/plugins that aren't already installed (please explain why).
