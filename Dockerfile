@@ -44,5 +44,6 @@ VOLUME /var/lib/mopidy/media
 
 EXPOSE 6600
 EXPOSE 6680
+EXPOSE 5555/udp
 
 ENTRYPOINT ["/mopidy.sh"]

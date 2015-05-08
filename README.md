@@ -50,7 +50,7 @@ First to make [audio from from within a Docker container](http://stackoverflow.c
           -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
           -v $PWD/media:/var/lib/mopidy/media:ro \
           -v $PWD/local:/var/lib/mopidy/local \
-          -p 6600:6600 -p 6680:6680 \
+          -p 6600:6600 -p 6680:6680 -p 5555:5555/udp \
           wernight/mopidy \
           -o spotify/username=USERNAME -o spotify/password=PASSWORD \
           -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
@@ -68,6 +68,7 @@ Ports:
 
   * 6600 - MPD server (if you use for example ncmpcpp client)
   * 6680 - HTTP server (if you use your browser as client)
+  * 5555/udp - [UDP steaming for FIFO sink](https://github.com/mopidy/mopidy/issues/775)
 
 Environment variables:
 
@@ -110,7 +111,7 @@ Volumes:
           -e PULSE_SERVER=tcp:$(hostname -i):4713 \
           -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
           wernight/mopidy
-    $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp --host mopidy
+    $ docker run --rm -it --net=container:mopidy wernight/ncmpcpp
 
 
 Feedbacks
