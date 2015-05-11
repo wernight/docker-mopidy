@@ -84,17 +84,32 @@ Volumes:
  1. Give read access to your audio files to user **102** (`mopidy`), group **29** (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
  2. Index local files:
 
-        $ docker run --rm -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local wernight/mopidy local scan
+        $ docker run --rm \
+              -e PULSE_SERVER=tcp:$(hostname -i):4713 \
+              -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
+              -v $PWD/media:/var/lib/mopidy/media:ro \
+              -v $PWD/local:/var/lib/mopidy/local \
+              -p 6680:6680 \
+              wernight/mopidy local scan
 
  3. Start the server:
 
-        $ docker run -d -v $PWD/media:/var/lib/mopidy/media:ro -v $PWD/local:/var/lib/mopidy/local -p 6680:6680 wernight/mopidy
+        $ docker run -d \
+              -e PULSE_SERVER=tcp:$(hostname -i):4713 \
+              -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
+              -v $PWD/media:/var/lib/mopidy/media:ro \
+              -v $PWD/local:/var/lib/mopidy/local \
+              -p 6680:6680 \
+              wernight/mopidy
 
- 4. Browse to [http://localhost:6680/](http://localhost:6680/)
+ 4. Browse to http://localhost:6800/
 
-#### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
+### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
-    $ docker run --name mopidy -d wernight/mopidy
+    $ docker run --name mopidy -d \
+          -e PULSE_SERVER=tcp:$(hostname -i):4713 \
+          -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
+          wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp --host mopidy
 
 
