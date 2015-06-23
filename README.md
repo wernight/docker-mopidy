@@ -90,7 +90,7 @@ Volumes:
               -v $PWD/media:/var/lib/mopidy/media:ro \
               -v $PWD/local:/var/lib/mopidy/local \
               -p 6680:6680 \
-              wernight/mopidy local scan
+              wernight/mopidy mopidy local scan
 
  3. Start the server:
 
@@ -110,7 +110,7 @@ Volumes:
           -e PULSE_SERVER=tcp:$(hostname -i):4713 \
           -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
           wernight/mopidy
-    $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp --host mopidy
+    $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
 
 Feedbacks
