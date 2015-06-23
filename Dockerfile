@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 
 MAINTAINER Werner Beroux <werner@beroux.com>
 
@@ -13,7 +13,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     mopidy \
     mopidy-soundcloud \
     mopidy-spotify \
-    gstreamer0.10-alsa
+    gstreamer0.10-alsa \
+    python-crypto
 
 # Install more extensions via PIP.
 ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
