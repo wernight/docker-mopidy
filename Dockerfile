@@ -46,4 +46,4 @@ VOLUME /var/lib/mopidy/media
 EXPOSE 6600
 EXPOSE 6680
 
-ENTRYPOINT ["/mopidy.sh"]
+CMD ["/mopidy.sh"]
