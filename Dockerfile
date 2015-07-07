@@ -34,8 +34,8 @@ ADD mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
 RUN chown mopidy:audio -R /var/lib/mopidy/.config
 
 # Start helper script
-ADD mopidy.sh /mopidy.sh
-RUN chown mopidy:audio /mopidy.sh
+ADD entrypoint.sh /entrypoint.sh
+RUN chown mopidy:audio /entrypoint.sh
 
 # Run as mopidy user
 USER mopidy
@@ -46,4 +46,4 @@ VOLUME /var/lib/mopidy/media
 EXPOSE 6600
 EXPOSE 6680
 
-CMD ["/mopidy.sh"]
+CMD ["/entrypoint.sh"]
