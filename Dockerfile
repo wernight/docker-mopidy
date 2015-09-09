@@ -9,25 +9,26 @@ ADD https://apt.mopidy.com/mopidy.list /etc/apt/sources.list.d/mopidy.list
 
 RUN apt-key add /tmp/mopidy.gpg
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    mopidy \
-    mopidy-soundcloud \
-    mopidy-spotify \
-    gstreamer0.10-alsa \
-    python-crypto
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        mopidy \
+        mopidy-soundcloud \
+        mopidy-spotify \
+        gstreamer0.10-alsa \
+        python-crypto \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install more extensions via PIP.
 ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
-RUN python /tmp/get-pip.py
+RUN python /tmp/get-pip.py \
+    && rm /tmp/get-pip.py
 RUN pip install -U six
 RUN pip install \
-    Mopidy-Moped \
-    Mopidy-GMusic \
-    Mopidy-YouTube
-
-# Clean-up to save some space
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+        Mopidy-Moped \
+        Mopidy-GMusic \
+        Mopidy-YouTube \
+    && rm -rf /tmp/* /var/tmp/*
 
 # Default configuration
 ADD mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
