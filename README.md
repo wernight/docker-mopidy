@@ -4,8 +4,7 @@ Docker Mopidy
 Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
 
 
-Features
---------
+### Features
 
   * Follows [official installation](https://docs.mopidy.com/en/latest/installation/debian/) on top of [Debian](https://registry.hub.docker.com/_/debian/).
   * With backend extensions for:
@@ -19,10 +18,9 @@ Features
 You may install additional [backend extensions](https://docs.mopidy.com/en/latest/ext/backends/).
 
 
-Usage
------
+### Usage
 
-### PulseAudio over network
+#### PulseAudio over network
 
 First to make [audio from from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/); so if you have X11 you may for example do:
 
@@ -43,7 +41,7 @@ First to make [audio from from within a Docker container](http://stackoverflow.c
 
     On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
 
-### General usage
+#### General usage
 
     $ docker run -d \
           -e PULSE_SERVER=tcp:$(hostname -i):4713 \
@@ -79,7 +77,7 @@ Volumes:
   * `/var/lib/mopidy/media` - Path to directory with local media files (optional).
   * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
 
-#### Example using HTTP client to stream local files
+##### Example using HTTP client to stream local files
 
  1. Give read access to your audio files to user **102** (`mopidy`), group **29** (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
  2. Index local files:
@@ -104,7 +102,7 @@ Volumes:
 
  4. Browse to http://localhost:6800/
 
-### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
+#### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
     $ docker run --name mopidy -d \
           -e PULSE_SERVER=tcp:$(hostname -i):4713 \
@@ -113,7 +111,6 @@ Volumes:
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
 
-Feedbacks
----------
+### Feedbacks
 
 Having more issues? [Report a bug on GitHub](https://github.com/wernight/docker-mopidy/issues). Also if you need some additional extensions/plugins that aren't already installed (please explain why).
