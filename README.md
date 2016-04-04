@@ -50,6 +50,7 @@ First to make [audio from from within a Docker container](http://stackoverflow.c
           -v $PWD/local:/var/lib/mopidy/local \
           -p 6600:6600 -p 6680:6680 \
           wernight/mopidy \
+          mopidy \
           -o spotify/username=USERNAME -o spotify/password=PASSWORD \
           -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
           -o soundcloud/auth_token=TOKEN
