@@ -1,5 +1,4 @@
-Docker Mopidy
-=============
+[![](https://badge.imagelayers.io/wernight/mopidy:latest.svg)](https://imagelayers.io/?images=wernight/mopidy:latest 'Get your own badge on imagelayers.io')
 
 Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
 
