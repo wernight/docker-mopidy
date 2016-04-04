@@ -10,10 +10,11 @@ COPY entrypoint.sh /entrypoint.sh
 
 # Official Mopidy install for Debian/Ubuntu along with some extensions
 # (see https://docs.mopidy.com/en/latest/installation/debian/ )
-RUN set -e \
+RUN set -ex \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
+        gcc \
         gstreamer0.10-alsa \
         python-crypto \
  && curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
@@ -32,6 +33,7 @@ RUN set -e \
         Mopidy-YouTube \
  && apt-get purge --auto-remove -y \
         curl \
+        gcc \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache \
  && chown mopidy:audio -R /var/lib/mopidy/.config \
