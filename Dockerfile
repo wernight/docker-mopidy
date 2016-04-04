@@ -3,14 +3,15 @@ FROM debian:jessie
 MAINTAINER Werner Beroux <werner@beroux.com>
 
 # Default configuration
-ADD mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
+COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
 
 # Start helper script
-ADD entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 # Official Mopidy install for Debian/Ubuntu along with some extensions
 # (see https://docs.mopidy.com/en/latest/installation/debian/ )
-RUN apt-get update \
+RUN set -e \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         gstreamer0.10-alsa \
