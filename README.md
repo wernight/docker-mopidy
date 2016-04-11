@@ -100,7 +100,7 @@ Volumes:
               -p 6680:6680 \
               wernight/mopidy
 
- 4. Browse to http://localhost:6800/
+ 4. Browse to http://localhost:6680/
 
 #### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
