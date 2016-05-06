@@ -1,7 +1,7 @@
 [![](https://badge.imagelayers.io/wernight/mopidy:latest.svg)](https://imagelayers.io/?images=wernight/mopidy:latest 'Get your own badge on imagelayers.io')
 
-Containerized **[Mopidy]** music server with support for [MPD clients] and [HTTP
-clients].
+Containerized **[Mopidy]** music server with support for [MPD clients]
+and [HTTP clients].
 
 ### Features
 
@@ -123,7 +123,6 @@ Volumes:
           -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
           wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
-
 
 ### Feedbacks
 
