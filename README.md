@@ -1,3 +1,5 @@
+[![](https://images.microbadger.com/badges/image/wernight/mopidy.svg)](http://microbadger.com/images/wernight/mopidy "Get your own image badge on microbadger.com")
+
 Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
 
 
