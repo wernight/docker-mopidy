@@ -31,6 +31,7 @@ RUN set -ex \
         Mopidy-Moped \
         Mopidy-GMusic \
         Mopidy-YouTube \
+        pyasn1==0.1.8 \
  && apt-get purge --auto-remove -y \
         curl \
         gcc \
