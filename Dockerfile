@@ -14,6 +14,8 @@ RUN set -ex \
         curl \
         gcc \
         gstreamer0.10-alsa \
+        gstreamer0.10-plugins-bad \
+        gstreamer1.0-plugins-bad \
         python-crypto \
  && curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
