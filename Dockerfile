@@ -1,7 +1,5 @@
 FROM debian:jessie
 
-MAINTAINER Werner Beroux <werner@beroux.com>
-
 # Default configuration
 COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
 
@@ -43,11 +41,9 @@ RUN set -ex \
 # Run as mopidy user
 USER mopidy
 
-VOLUME /var/lib/mopidy/local
-VOLUME /var/lib/mopidy/media
+VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
 
-EXPOSE 6600
-EXPOSE 6680
+EXPOSE 6600 6680
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/mopidy"]
