@@ -43,10 +43,10 @@ First to make [audio from from within a Docker container](http://stackoverflow.c
 #### General usage
 
     $ docker run -d \
-          -e PULSE_SERVER=tcp:$(hostname -i):4713 \
-          -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
-          -v $PWD/media:/var/lib/mopidy/media:ro \
-          -v $PWD/local:/var/lib/mopidy/local \
+          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+          -v "$PWD/media:/var/lib/mopidy/media:ro" \
+          -v "$PWD/local:/var/lib/mopidy/local" \
           -p 6600:6600 -p 6680:6680 \
           wernight/mopidy \
           mopidy \
@@ -83,20 +83,20 @@ Volumes:
  2. Index local files:
 
         $ docker run --rm \
-              -e PULSE_SERVER=tcp:$(hostname -i):4713 \
-              -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
-              -v $PWD/media:/var/lib/mopidy/media:ro \
-              -v $PWD/local:/var/lib/mopidy/local \
+              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+              -v "$PWD/media:/var/lib/mopidy/media:ro" \
+              -v "$PWD/local:/var/lib/mopidy/local" \
               -p 6680:6680 \
               wernight/mopidy mopidy local scan
 
  3. Start the server:
 
         $ docker run -d \
-              -e PULSE_SERVER=tcp:$(hostname -i):4713 \
-              -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
-              -v $PWD/media:/var/lib/mopidy/media:ro \
-              -v $PWD/local:/var/lib/mopidy/local \
+              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+              -v "$PWD/media:/var/lib/mopidy/media:ro" \
+              -v "$PWD/local:/var/lib/mopidy/local" \
               -p 6680:6680 \
               wernight/mopidy
 
@@ -105,8 +105,8 @@ Volumes:
 #### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
     $ docker run --name mopidy -d \
-          -e PULSE_SERVER=tcp:$(hostname -i):4713 \
-          -e PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*') \
+          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
           wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
