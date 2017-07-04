@@ -20,31 +20,20 @@ You may install additional [backend extensions](https://docs.mopidy.com/en/lates
 ### Usage
 
 #### PulseAudio over network
+    
+    Mount the current user's pulse directory to the pulseuadio user (id - 105)
+    Based on: https://github.com/TheBiggerGuy/docker-pulseaudio-example
 
-First to make [audio from from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/); so if you have X11 you may for example do:
+    $ docker run -d \
+      -v /run/user/$(id -u)/pulse:/run/user/105/pulse \
+      -p 6600:6600 -p 6680:6680 \
+      wernight/mopidy 
 
- 1. Install [PulseAudio Preferences](http://freedesktop.org/software/pulseaudio/paprefs/). Debian/Ubuntu users can do this:
-
-        $ sudo apt-get install paprefs
-
- 2. Launch `paprefs` (PulseAudio Preferences) > "*Network Server*" tab > Check "*Enable network access to local sound devices*" (you may check "*Don't require authentication*" to avoid mounting cookie file described below).
-
- 3. Restart PulseAudio
-
-        $ sudo service pulseaudio restart
-
-    or
-
-        $ pulseaudio -k
-        $ pulseaudio --start
-
-    On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
 
 #### General usage
 
     $ docker run -d \
-          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+          -v /run/user/$(id -u)/pulse:/run/user/105/pulse \
           -v "$PWD/media:/var/lib/mopidy/media:ro" \
           -v "$PWD/local:/var/lib/mopidy/local" \
           -p 6600:6600 -p 6680:6680 \
@@ -67,10 +56,6 @@ Ports:
   * 6600 - MPD server (if you use for example ncmpcpp client)
   * 6680 - HTTP server (if you use your browser as client)
 
-Environment variables:
-
-  * `PULSE_SERVER` - PulseAudio server socket.
-  * `PULSE_COOKIE_DATA` - Hexadecimal encoded PulseAudio cookie commonly at `~/.config/pulse/cookie`.
 
 Volumes:
 
@@ -83,8 +68,7 @@ Volumes:
  2. Index local files:
 
         $ docker run --rm \
-              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+              -v /run/user/$(id -u)/pulse:/run/user/105/pulse \
               -v "$PWD/media:/var/lib/mopidy/media:ro" \
               -v "$PWD/local:/var/lib/mopidy/local" \
               -p 6680:6680 \
@@ -93,8 +77,7 @@ Volumes:
  3. Start the server:
 
         $ docker run -d \
-              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+              -v /run/user/$(id -u)/pulse:/run/user/105/pulse \
               -v "$PWD/media:/var/lib/mopidy/media:ro" \
               -v "$PWD/local:/var/lib/mopidy/local" \
               -p 6680:6680 \
@@ -105,8 +88,7 @@ Volumes:
 #### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
     $ docker run --name mopidy -d \
-          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+          -v /run/user/$(id -u)/pulse:/run/user/105/pulse \
           wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
