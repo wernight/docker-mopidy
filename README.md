@@ -1,9 +1,12 @@
 [![](https://images.microbadger.com/badges/image/wernight/mopidy.svg)](http://microbadger.com/images/wernight/mopidy "Get your own image badge on microbadger.com")
 
-Containerized [**Mopidy**](https://www.mopidy.com/) music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
+What is Mopidy?
+===============
 
+[**Mopidy**](https://www.mopidy.com/) is a music server with support for [MPD clients](https://docs.mopidy.com/en/latest/clients/mpd/) and [HTTP clients](https://docs.mopidy.com/en/latest/ext/web/#ext-web).
 
-### Features
+Features of this image
+----------------------
 
   * Follows [official installation](https://docs.mopidy.com/en/latest/installation/debian/) on top of [Debian](https://registry.hub.docker.com/_/debian/).
   * With backend extensions for:
@@ -17,11 +20,39 @@ Containerized [**Mopidy**](https://www.mopidy.com/) music server with support fo
 You may install additional [backend extensions](https://docs.mopidy.com/en/latest/ext/backends/).
 
 
-### Usage
+Usage
+-----
+
+### Playing sound from the container
+
+There are various ways to have the audio from Mopidy running in your container
+to play on your system's audio output. Here are various ways, try them and find
+which one works for you.
+
+#### /dev/snd
+
+Simplest is by adding docker argument: `--device /dev/snd`. Try via:
+
+    $ docker run --rm \
+        --device /dev/snd \
+        wernight/mopidy \
+        gst-launch-1.0 audiotestsrc ! audioresample ! autoaudiosink
+
+#### PulseAudio native
+
+Mount the current user's pulse directory to the pulseuadio user (UID `105`).
+Based on https://github.com/TheBiggerGuy/docker-pulseaudio-example.
+
+    $ docker run --rm \
+        -v /run/user/$UID/pulse:/run/user/105/pulse \
+        wernight/mopidy \
+        gst-launch-1.0 audiotestsrc ! audioresample ! autoaudiosink
 
 #### PulseAudio over network
 
-First to make [audio work from within a Docker container](http://stackoverflow.com/q/28985714/167897), you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/); so if you have X11 you may for example do:
+First to make [audio work from within a Docker container](http://stackoverflow.com/q/28985714/167897),
+you should enable [PulseAudio over network](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Network/);
+so if you have X11 you may for example do:
 
  1. Install [PulseAudio Preferences](http://freedesktop.org/software/pulseaudio/paprefs/). Debian/Ubuntu users can do this:
 
@@ -29,7 +60,7 @@ First to make [audio work from within a Docker container](http://stackoverflow.c
 
  2. Launch `paprefs` (PulseAudio Preferences) > "*Network Server*" tab > Check "*Enable network access to local sound devices*" (you may check "*Don't require authentication*" to avoid mounting cookie file described below).
 
- 3. Restart PulseAudio
+ 3. Restart PulseAudio:
 
         $ sudo service pulseaudio restart
 
@@ -38,50 +69,53 @@ First to make [audio work from within a Docker container](http://stackoverflow.c
         $ pulseaudio -k
         $ pulseaudio --start
 
-    On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
+Note: On some distributions, it may be necessary to completely restart your computer. You can confirm that the settings have successfully been applied running `pax11publish | grep -Eo 'tcp:[^ ]*'`. You should see something like `tcp:myhostname:4713`.
 
-#### General usage
-
-    $ docker run -d \
-          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
-          -v "$PWD/media:/var/lib/mopidy/media:ro" \
-          -v "$PWD/local:/var/lib/mopidy/local" \
-          -p 6600:6600 -p 6680:6680 \
-          --user $UID:$GID \
-          wernight/mopidy \
-          mopidy \
-          -o spotify/username=USERNAME -o spotify/password=PASSWORD \
-          -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
-          -o soundcloud/auth_token=TOKEN
-
-See [mopidy's command](https://docs.mopidy.com/en/latest/command/) for possible additional options.
-
-Most elements are optional (see some examples below). Replace `USERNAME`, `PASSWORD`, `TOKEN` accordingly if needed, or disable services (e.g., `-o spotify/enabled=false`):
-
-  * For *Spotify* you'll need a *Premium* account.
-  * For *Google Music* use your Google account (if you have *2-Step Authentication*, generate an [app specific password](https://security.google.com/settings/security/apppasswords)).
-  * For *SoundCloud*, just [get a token](https://www.mopidy.com/authenticate/) after registering.
-
-Ports:
-
-  * 6600 - MPD server (if you use for example ncmpcpp client)
-  * 6680 - HTTP server (if you use your browser as client)
-
-Environment variables:
+Now set the environment variables:
 
   * `PULSE_SERVER` - PulseAudio server socket.
   * `PULSE_COOKIE_DATA` - Hexadecimal encoded PulseAudio cookie commonly at `~/.config/pulse/cookie`.
 
-Volumes:
+Example to check it works:
 
-  * `/var/lib/mopidy/media` - Path to directory with local media files (optional).
-  * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
+    $ docker run --rm \
+        -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+        -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+        wernight/mopidy \
+        gst-launch-1.0 audiotestsrc ! audioresample ! autoaudiosink
 
-User:
+### General usage
 
-  * You may run as any UID/GID, and by default it'll run as UID/GID `84044` (`mopidy:audio` from within the container).
-    The only restriction is if you want to read local media files: That the user (UID) you run as should have read access to these files.
+    $ docker run -d \
+        $PUT_HERE_EXRA_DOCKER_ARGUMENTS_FOR_AUDIO_TO_WORK \
+        -v "$PWD/media:/var/lib/mopidy/media:ro" \
+        -v "$PWD/local:/var/lib/mopidy/local" \
+        -p 6600:6600 -p 6680:6680 \
+        --user $UID:$GID \
+        wernight/mopidy \
+        mopidy \
+        -o spotify/username=USERNAME -o spotify/password=PASSWORD \
+        -o gmusic/username=USERNAME -o gmusic/password=PASSWORD \
+        -o soundcloud/auth_token=TOKEN
+
+Most arguments are optional (see some examples below):
+
+  * Docker arguments:
+      * `$PUT_HERE_EXRA_DOCKER_ARGUMENTS_FOR_AUDIO_TO_WORK` should be replaced
+        with some arguments that work to play audio from within the docker
+        container as tested above.
+      * `-v ...:/var/lib/mopidy/media:ro` - (optional) Path to directory with local media files.
+      * `-v ...:/var/lib/mopidy/local` - (optional) Path to directory to store local metadata such as libraries and playlists in.
+      * `-p 6600:6600` - (optional) Exposes MPD server (if you use for example ncmpcpp client).
+      * `-p 6680:6680` - (optional) Exposes HTTP server (if you use your browser as client).
+      * `--user $UID:$GID` - (optional) You may run as any UID/GID, and by default it'll run as UID/GID `84044` (`mopidy:audio` from within the container).
+        The main restriction is if you want to read local media files: That the user (UID) you run as should have read access to these files.
+        Similar for other mounts. If you have issues, try first as `--user root`.
+  * Mopidy arguments (see [mopidy's command](https://docs.mopidy.com/en/latest/command/) for possible additional options),
+    replace `USERNAME`, `PASSWORD`, `TOKEN` accordingly if needed, or disable services (e.g., `-o spotify/enabled=false`):
+      * For *Spotify* you'll need a *Premium* account.
+      * For *Google Music* use your Google account (if you have *2-Step Authentication*, generate an [app specific password](https://security.google.com/settings/security/apppasswords)).
+      * For *SoundCloud*, just [get a token](https://www.mopidy.com/authenticate/) after registering.
 
 ##### Example using HTTP client to stream local files
 
@@ -89,31 +123,29 @@ User:
  2. Index local files:
 
         $ docker run --rm \
-              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
-              -v "$PWD/media:/var/lib/mopidy/media:ro" \
-              -v "$PWD/local:/var/lib/mopidy/local" \
-              -p 6680:6680 \
-              wernight/mopidy mopidy local scan
+            --device /dev/snd \
+            -v "$PWD/media:/var/lib/mopidy/media:ro" \
+            -v "$PWD/local:/var/lib/mopidy/local" \
+            -p 6680:6680 \
+            wernight/mopidy mopidy local scan
 
  3. Start the server:
 
         $ docker run -d \
-              -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-              -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
-              -v "$PWD/media:/var/lib/mopidy/media:ro" \
-              -v "$PWD/local:/var/lib/mopidy/local" \
-              -p 6680:6680 \
-              wernight/mopidy
+            -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
+            -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
+            -v "$PWD/media:/var/lib/mopidy/media:ro" \
+            -v "$PWD/local:/var/lib/mopidy/local" \
+            -p 6680:6680 \
+            wernight/mopidy
 
  4. Browse to http://localhost:6680/
 
 #### Example using [ncmpcpp](https://docs.mopidy.com/en/latest/clients/mpd/#ncmpcpp) MPD console client
 
     $ docker run --name mopidy -d \
-          -e "PULSE_SERVER=tcp:$(hostname -i):4713" \
-          -e "PULSE_COOKIE_DATA=$(pax11publish -d | grep --color=never -Po '(?<=^Cookie: ).*')" \
-          wernight/mopidy
+        -v /run/user/$UID/pulse:/run/user/105/pulse \
+        wernight/mopidy
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
 

@@ -39,6 +39,9 @@ COPY entrypoint.sh /entrypoint.sh
 # Default configuration.
 COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
 
+# Copy the pulse-client configuratrion.
+COPY pulse-client.conf /etc/pulse/client.conf
+
 # Allows any user to run mopidy, but runs by default as a randomly generated UID/GID.
 ENV HOME=/var/lib/mopidy
 RUN set -ex \
