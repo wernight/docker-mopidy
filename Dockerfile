@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch-slim
 
 # Default configuration
 COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
@@ -13,13 +13,12 @@ RUN set -ex \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         gcc \
-        gstreamer0.10-alsa \
-        gstreamer0.10-plugins-bad \
+        gnupg \
+        gstreamer1.0-alsa \
         gstreamer1.0-plugins-bad \
         python-crypto \
- && curl -L https://apt.mopidy.com/mopidy.gpg -o /tmp/mopidy.gpg \
+ && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
- && apt-key add /tmp/mopidy.gpg \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         mopidy \
