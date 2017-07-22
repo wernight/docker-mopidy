@@ -1,10 +1,7 @@
 FROM debian:stretch-slim
 
-# Default configuration
-COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
-
-# Start helper script
-COPY entrypoint.sh /entrypoint.sh
+# Set the username
+ENV UNAME user
 
 RUN set -ex \
     # Official Mopidy install for Debian/Ubuntu along with some extensions
@@ -31,27 +28,29 @@ RUN set -ex \
         Mopidy-GMusic \
         Mopidy-YouTube \
         pyasn1==0.1.8 \
-    # Install dumb-init
-    # https://github.com/Yelp/dumb-init
- && DUMP_INIT_URI=$(curl -L https://github.com/Yelp/dumb-init/releases/latest | grep -Po '(?<=href=")[^"]+_amd64(?=")') \
- && curl -Lo /usr/local/bin/dumb-init "https://github.com/$DUMP_INIT_URI" \
- && chmod +x /usr/local/bin/dumb-init \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
         gcc \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache \
-    # Limited access rights.
- && chown mopidy:audio -R /var/lib/mopidy/.config \
- && chown mopidy:audio /entrypoint.sh
+ # Create the user
+ && useradd -m -d /home/${UNAME} ${UNAME} \
+ # Create the config dir
+ && mkdir -p /home/${UNAME}/.config/mopidy/ \
+ && chown -R ${UNAME} /home/${UNAME}/
 
-# Run as mopidy user
-USER mopidy
+# Copy the pulse-client configuratrion
+COPY pulse-client.conf /etc/pulse/client.conf
+
+# Run as user
+USER ${UNAME}
+
+# Default configuration
+COPY mopidy.conf /home/${UNAME}/.config/mopidy/mopidy.conf
 
 VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
 
 EXPOSE 6600 6680
 
-ENTRYPOINT ["/usr/local/bin/dumb-init", "/entrypoint.sh"]
 CMD ["/usr/bin/mopidy"]
