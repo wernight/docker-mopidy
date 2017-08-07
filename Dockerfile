@@ -30,7 +30,7 @@ RUN set -ex \
         Mopidy-Moped \
         Mopidy-GMusic \
         Mopidy-YouTube \
-        pyasn1==0.1.8 \
+        pyasn1==0.3.2 \
     # Install dumb-init
     # https://github.com/Yelp/dumb-init
  && DUMP_INIT_URI=$(curl -L https://github.com/Yelp/dumb-init/releases/latest | grep -Po '(?<=href=")[^"]+_amd64(?=")') \
