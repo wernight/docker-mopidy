@@ -17,6 +17,7 @@ RUN set -ex \
         gstreamer1.0-alsa \
         gstreamer1.0-plugins-bad \
         python-crypto \
+        dumb-init \
  && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
  && apt-get update \
@@ -31,11 +32,6 @@ RUN set -ex \
         Mopidy-GMusic \
         Mopidy-YouTube \
         pyasn1==0.3.2 \
-    # Install dumb-init
-    # https://github.com/Yelp/dumb-init
- && DUMP_INIT_URI=$(curl -L https://github.com/Yelp/dumb-init/releases/latest | grep -Po '(?<=href=")[^"]+_amd64(?=")') \
- && curl -Lo /usr/local/bin/dumb-init "https://github.com/$DUMP_INIT_URI" \
- && chmod +x /usr/local/bin/dumb-init \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
@@ -44,6 +40,7 @@ RUN set -ex \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache \
     # Limited access rights.
  && chown mopidy:audio -R /var/lib/mopidy/.config \
+ && chmod +x /entrypoint.sh \
  && chown mopidy:audio /entrypoint.sh
 
 # Run as mopidy user
@@ -53,5 +50,5 @@ VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
 
 EXPOSE 6600 6680
 
-ENTRYPOINT ["/usr/local/bin/dumb-init", "/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "/entrypoint.sh"]
 CMD ["/usr/bin/mopidy"]
