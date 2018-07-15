@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 
 MAINTAINER Werner Beroux <werner@beroux.com>
 
@@ -20,9 +20,12 @@ ADD https://bootstrap.pypa.io/get-pip.py /tmp/get-pip.py
 RUN python /tmp/get-pip.py
 RUN pip install -U six
 RUN pip install \
+    requests==2.19.1 \
+    cryptography==2.2.2 \
+    pyopenssl==18.0.0 \
     Mopidy-Moped \
     Mopidy-GMusic \
-    Mopidy-YouTube
+    Mopidy-Pandora
 
 # Clean-up to save some space
 RUN apt-get clean
@@ -47,3 +50,5 @@ EXPOSE 6680
 EXPOSE 5555/udp
 
 ENTRYPOINT ["/mopidy.sh"]
+CMD ["/usr/bin/mopidy"]
+
