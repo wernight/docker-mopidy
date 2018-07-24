@@ -24,8 +24,12 @@ RUN set -ex \
  && pip install \
         Mopidy-Moped \
         Mopidy-GMusic \
+        Mopidy-Pandora \
         Mopidy-YouTube \
-        pyasn1==0.3.2 \
+        requests[security] \
+        cryptography \
+        pyopenssl \
+        pyasn1 \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \

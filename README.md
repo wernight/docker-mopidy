@@ -13,6 +13,7 @@ Features of this image
       * [Mopidy-Spotify](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-spotify) for **[Spotify](https://www.spotify.com/us/)** (Premium)
       * [Mopidy-GMusic](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-gmusic) for **[Google Play Music](https://play.google.com/music/listen)**
       * [Mopidy-SoundClound](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-soundcloud) for **[SoundCloud](https://soundcloud.com/stream)**
+      * [Mopidy-Pandora](https://github.com/rectalogic/mopidy-pandora) for **[Pandora](https://www.pandora.com/)**
       * [Mopidy-YouTube](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-youtube) for **[YouTube](https://www.youtube.com)**
   * With [Mopidy-Moped](https://docs.mopidy.com/en/latest/ext/web/#mopidy-moped) web extension.
   * Can run as any user and runs as UID/GID `84044` user inside the container by default (for security reasons).
