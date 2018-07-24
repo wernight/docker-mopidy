@@ -35,7 +35,7 @@ which one works for you.
 Simplest is by adding docker argument: `--device /dev/snd`. Try via:
 
     $ docker run --rm \
-        --device /dev/snd \
+        --user root --device /dev/snd \
         wernight/mopidy \
         gst-launch-1.0 audiotestsrc ! audioresample ! autoaudiosink
 
@@ -45,7 +45,7 @@ Mount the current user's pulse directory to the pulseuadio user (UID `105`).
 Based on https://github.com/TheBiggerGuy/docker-pulseaudio-example.
 
     $ docker run --rm \
-        -v /run/user/$UID/pulse:/run/user/105/pulse \
+        --user $UID:$GID -v /run/user/$UID/pulse:/run/user/105/pulse \
         wernight/mopidy \
         gst-launch-1.0 audiotestsrc ! audioresample ! autoaudiosink
 
