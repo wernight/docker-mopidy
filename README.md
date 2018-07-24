@@ -109,6 +109,7 @@ Most arguments are optional (see some examples below):
       * `-v ...:/var/lib/mopidy/local` - (optional) Path to directory to store local metadata such as libraries and playlists in.
       * `-p 6600:6600` - (optional) Exposes MPD server (if you use for example ncmpcpp client).
       * `-p 6680:6680` - (optional) Exposes HTTP server (if you use your browser as client).
+      * `-p 5555:5555/udp` - (optional) Exposes [UDP streaming for FIFE sink](https://github.com/mopidy/mopidy/issues/775) (e.g. for visualizers).
       * `--user $UID:$GID` - (optional) You may run as any UID/GID, and by default it'll run as UID/GID `84044` (`mopidy:audio` from within the container).
         The main restriction is if you want to read local media files: That the user (UID) you run as should have read access to these files.
         Similar for other mounts. If you have issues, try first as `--user root`.
@@ -147,6 +148,10 @@ Most arguments are optional (see some examples below):
     $ docker run --name mopidy -d \
         -v /run/user/$UID/pulse:/run/user/105/pulse \
         wernight/mopidy
+    $ docker run --rm -it --net container:mopidy wernight/ncmpcpp ncmpcpp
+
+Alternatively if you don't need visualizers you can do:
+
     $ docker run --rm -it --link mopidy:mopidy wernight/ncmpcpp ncmpcpp --host mopidy
 
 

@@ -59,7 +59,7 @@ USER mopidy
 
 VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
 
-EXPOSE 6600 6680
+EXPOSE 6600 6680 5555/udp
 
 ENTRYPOINT ["/usr/bin/dumb-init", "/entrypoint.sh"]
 CMD ["/usr/bin/mopidy"]
