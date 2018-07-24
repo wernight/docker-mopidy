@@ -6,12 +6,12 @@ RUN set -ex \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
+        dumb-init \
         gcc \
         gnupg \
         gstreamer1.0-alsa \
         gstreamer1.0-plugins-bad \
         python-crypto \
-        dumb-init \
  && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
  && apt-get update \
@@ -26,10 +26,11 @@ RUN set -ex \
         Mopidy-GMusic \
         Mopidy-Pandora \
         Mopidy-YouTube \
-        requests[security] \
         cryptography \
-        pyopenssl \
         pyasn1 \
+        pyopenssl \
+        requests[security] \
+        youtube-dl \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
