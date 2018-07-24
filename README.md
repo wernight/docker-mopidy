@@ -12,7 +12,7 @@ Containerized [**Mopidy**](https://www.mopidy.com/) music server with support fo
       * [Mopidy-SoundClound](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-soundcloud) for **[SoundCloud](https://soundcloud.com/stream)**
       * [Mopidy-YouTube](https://docs.mopidy.com/en/latest/ext/backends/#mopidy-youtube) for **[YouTube](https://www.youtube.com)**
   * With [Mopidy-Moped](https://docs.mopidy.com/en/latest/ext/web/#mopidy-moped) web extension.
-  * Runs as `mopidy` user inside the container (for security reasons).
+  * Can run as any user and runs as UID/GID `84044` user inside the container by default (for security reasons).
 
 You may install additional [backend extensions](https://docs.mopidy.com/en/latest/ext/backends/).
 
@@ -48,6 +48,7 @@ First to make [audio work from within a Docker container](http://stackoverflow.c
           -v "$PWD/media:/var/lib/mopidy/media:ro" \
           -v "$PWD/local:/var/lib/mopidy/local" \
           -p 6600:6600 -p 6680:6680 \
+          --user $UID:$GID \
           wernight/mopidy \
           mopidy \
           -o spotify/username=USERNAME -o spotify/password=PASSWORD \
@@ -77,9 +78,14 @@ Volumes:
   * `/var/lib/mopidy/media` - Path to directory with local media files (optional).
   * `/var/lib/mopidy/local` - Path to directory to store local metadata such as libraries and playlists in (optional).
 
+User:
+
+  * You may run as any UID/GID, and by default it'll run as UID/GID `84044` (`mopidy:audio` from within the container).
+    The only restriction is if you want to read local media files: That the user (UID) you run as should have read access to these files.
+
 ##### Example using HTTP client to stream local files
 
- 1. Give read access to your audio files to user **102** (`mopidy`), group **29** (`audio`), or all users (e.g., `$ chgrp -R 29 $PWD/media && chmod -R g+r $PWD/media`).
+ 1. Give read access to your audio files to user **84044**, group **84044**, or all users (e.g., `$ chgrp -R 84044 $PWD/media && chmod -R g+rX $PWD/media`).
  2. Index local files:
 
         $ docker run --rm \

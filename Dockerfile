@@ -1,11 +1,5 @@
 FROM debian:stretch-slim
 
-# Default configuration
-COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
-
-# Start helper script
-COPY entrypoint.sh /entrypoint.sh
-
 RUN set -ex \
     # Official Mopidy install for Debian/Ubuntu along with some extensions
     # (see https://docs.mopidy.com/en/latest/installation/debian/ )
@@ -37,13 +31,23 @@ RUN set -ex \
         curl \
         gcc \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache \
-    # Limited access rights.
- && chown mopidy:audio -R /var/lib/mopidy/.config \
- && chmod +x /entrypoint.sh \
- && chown mopidy:audio /entrypoint.sh
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
-# Run as mopidy user
+# Start helper script.
+COPY entrypoint.sh /entrypoint.sh
+
+# Default configuration.
+COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
+
+# Allows any user to run mopidy, but runs by default as a randomly generated UID/GID.
+ENV HOME=/var/lib/mopidy
+RUN set -ex \
+ && usermod -u 84044 mopidy \
+ && groupmod -g 84044 audio \
+ && chown mopidy:audio -R $HOME /entrypoint.sh \
+ && chmod go+rwX -R $HOME /entrypoint.sh
+
+# Runs as mopidy user by default.
 USER mopidy
 
 VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
