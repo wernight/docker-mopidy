@@ -36,7 +36,6 @@ RUN git clone https://github.com/BlackLight/mopidy-spotify.git && \
     git checkout fix/incompatible_playlists && \
     python setup.py build install
 
-
 # Clean-up to save some space
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
