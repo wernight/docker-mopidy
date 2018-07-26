@@ -10,9 +10,12 @@ ADD https://apt.mopidy.com/mopidy.list /etc/apt/sources.list.d/mopidy.list
 RUN apt-key add /tmp/mopidy.gpg
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    git \
+    gcc \
+    python-dev \
     mopidy \
     mopidy-soundcloud \
-    mopidy-spotify \
+    python-spotify \
     gstreamer0.10-alsa
 
 # Install more extensions via PIP.
@@ -26,6 +29,13 @@ RUN pip install \
     Mopidy-Moped \
     Mopidy-GMusic \
     Mopidy-Pandora
+
+# Fix for mopidy spotify. They dont seem to want to fix it
+RUN git clone https://github.com/BlackLight/mopidy-spotify.git && \
+    cd mopidy-spotify && \
+    git checkout fix/incompatible_playlists && \
+    python setup.py build install
+
 
 # Clean-up to save some space
 RUN apt-get clean
