@@ -31,6 +31,8 @@ RUN set -ex \
         pyopenssl \
         requests[security] \
         youtube-dl \
+ && mkdir -p /var/lib/mopidy/.config/mopidy \
+ && ln -s /config/ /var/lib/mopidy/.config/mopidy \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
@@ -42,7 +44,7 @@ RUN set -ex \
 COPY entrypoint.sh /entrypoint.sh
 
 # Default configuration.
-COPY mopidy.conf /var/lib/mopidy/.config/mopidy/mopidy.conf
+COPY mopidy.conf /config/mopidy.conf
 
 # Copy the pulse-client configuratrion.
 COPY pulse-client.conf /etc/pulse/client.conf

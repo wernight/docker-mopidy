@@ -119,6 +119,50 @@ Most arguments are optional (see some examples below):
       * For *Google Music* use your Google account (if you have *2-Step Authentication*, generate an [app specific password](https://security.google.com/settings/security/apppasswords)).
       * For *SoundCloud*, just [get a token](https://www.mopidy.com/authenticate/) after registering.
 
+NOTE: Any user on your system may run `ps aux` and see the command-line you're running, so your passwords may be exposed.
+A safer option if it's a concern, is using putting these passwords in a Mopidy configuration file based on [mopidy.conf](mopidy.conf):
+
+    [core]
+    data_dir = /var/lib/mopidy
+
+    [local]
+    media_dir = /var/lib/mopidy/media
+
+    [audio]
+    output = tee name=t ! queue ! autoaudiosink t. ! queue ! udpsink host=0.0.0.0 port=5555
+
+    [m3u]
+    playlists_dir = /var/lib/mopidy/playlists
+
+    [http]
+    hostname = 0.0.0.0
+
+    [mpd]
+    hostname = 0.0.0.0
+
+    [spotify]
+    username=USERNAME
+    password=PASSWORD
+
+    [gmusic]
+    username=USERNAME
+    password=PASSWORD
+
+    [soundcloud]
+    auth_token=TOKEN
+
+Then run it:
+
+    $ docker run -d \
+        $PUT_HERE_EXRA_DOCKER_ARGUMENTS_FOR_AUDIO_TO_WORK \
+        -v "$PWD/media:/var/lib/mopidy/media:ro" \
+        -v "$PWD/local:/var/lib/mopidy/local" \
+        -v "$PWD/mopidy.conf:/config/mopidy.conf" \
+        -p 6600:6600 -p 6680:6680 \
+        --user $UID:$GID \
+        wernight/mopidy
+
+
 ##### Example using HTTP client to stream local files
 
  1. Give read access to your audio files to user **84044**, group **84044**, or all users (e.g., `$ chgrp -R 84044 $PWD/media && chmod -R g+rX $PWD/media`).
