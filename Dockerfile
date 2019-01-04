@@ -31,8 +31,8 @@ RUN set -ex \
         pyopenssl \
         requests[security] \
         youtube-dl \
- && mkdir -p /var/lib/mopidy/.config/mopidy \
- && ln -s /config/ /var/lib/mopidy/.config/mopidy \
+ && mkdir -p /var/lib/mopidy/.config \
+ && ln -s /config /var/lib/mopidy/.config/mopidy \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
