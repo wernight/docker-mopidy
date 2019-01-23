@@ -202,3 +202,8 @@ Alternatively if you don't need visualizers you can do:
 ### Feedbacks
 
 Having more issues? [Report a bug on GitHub](https://github.com/wernight/docker-mopidy/issues). Also if you need some additional extensions/plugins that aren't already installed (please explain why).
+
+
+### Alsa Audio
+
+For non debian distros. The gid for audio group in /etc/group must be 29 to match debians default as `audio:x:29:<your user outside of docker>` this is to match the user id inside the docker container. You'll also need to add the `output = alsasink` config line under the audio section in your `mopidy.conf`.
