@@ -52,7 +52,7 @@ COPY pulse-client.conf /etc/pulse/client.conf
 # Allows any user to run mopidy, but runs by default as a randomly generated UID/GID.
 ENV HOME=/var/lib/mopidy
 RUN set -ex \
- && usermod -u 84044 -G audio,sudo mopidy \
+ && usermod -G audio,sudo mopidy \
  && chown mopidy:audio -R $HOME /entrypoint.sh \
  && chmod go+rwX -R $HOME /entrypoint.sh
 
