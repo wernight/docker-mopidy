@@ -207,3 +207,15 @@ Having more issues? [Report a bug on GitHub](https://github.com/wernight/docker-
 ### Alsa Audio
 
 For non debian distros. The gid for audio group in /etc/group must be 29 to match debians default as `audio:x:29:<your user outside of docker>` this is to match the user id inside the docker container. You'll also need to add the `output = alsasink` config line under the audio section in your `mopidy.conf`.
+
+```
+alias mopidy='docker run -d -rm -u root \
+  --device /dev/snd \
+  --name mopidy \
+  --ipc=host \
+  --privileged \
+  -v $HOME/.config/mopidy:/var/lib/mopidy/.config/mopidy/ \
+  -p 6600:6600/tcp -p 6680:6680/tcp -p 5555:5555/udp \
+  mopidy'
+```
+
