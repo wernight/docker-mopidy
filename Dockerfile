@@ -20,16 +20,13 @@ RUN set -ex \
         mopidy-soundcloud \
         mopidy-spotify \
  && curl -L https://bootstrap.pypa.io/get-pip.py | python - \
- && pip install -U six \
+ && pip install -U six pyasn1 requests[security] cryptography \
  && pip install \
         Mopidy-Moped \
         Mopidy-GMusic \
         Mopidy-Pandora \
         Mopidy-YouTube \
-        cryptography \
-        pyasn1 \
         pyopenssl \
-        requests[security] \
         youtube-dl \
  && mkdir -p /var/lib/mopidy/.config \
  && ln -s /config /var/lib/mopidy/.config/mopidy \
@@ -55,7 +52,7 @@ RUN set -ex \
  && usermod -u 84044 mopidy \
  && groupmod -g 84044 audio \
  && chown mopidy:audio -R $HOME /entrypoint.sh \
- && chmod go+rwX -R $HOME /entrypoint.sh
+ && chmod go+rwx -R $HOME /entrypoint.sh
 
 # Runs as mopidy user by default.
 USER mopidy
