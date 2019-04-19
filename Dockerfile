@@ -22,6 +22,7 @@ RUN set -ex \
  && curl -L https://bootstrap.pypa.io/get-pip.py | python - \
  && pip install -U six pyasn1 requests[security] cryptography \
  && pip install \
+        Mopidy-Iris \
         Mopidy-Moped \
         Mopidy-GMusic \
         Mopidy-Pandora \
