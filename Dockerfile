@@ -1,40 +1,46 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
-RUN set -ex \
-    # Official Mopidy install for Debian/Ubuntu along with some extensions
-    # (see https://docs.mopidy.com/en/latest/installation/debian/ )
- && apt-get update \
+&& apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
-        dumb-init \
         gcc \
-        gnupg \
-        gstreamer1.0-alsa \
+        dumb-init \
+        python3 \
+        python3-pip \
+        python3-dev \
+        python3-crypto \
+        python3-gst-1.0 \
+        build-essential \
+        libgstreamer1.0-0 \
+        gstreamer1.0-plugins-good \
+        gstreamer1.0-plugins-ugly \
         gstreamer1.0-plugins-bad \
-        python-crypto \
+        gstreamer1.0-tools \
+        gstreamer1.0-alsa \
  && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         mopidy \
-        mopidy-soundcloud \
         mopidy-spotify \
- && curl -L https://bootstrap.pypa.io/get-pip.py | python - \
- && pip install -U six pyasn1 requests[security] cryptography \
- && pip install \
-        Mopidy-Iris \
-        Mopidy-Moped \
+ && pip3 install \
+ # List extensions you want to install
+        Mopidy-Local \
+        Mopidy-Mobile \
+        Mopidy-MPD \
         Mopidy-GMusic \
         Mopidy-Pandora \
         Mopidy-YouTube \
+        Mopidy-MusicBox-Webclient \
         pyopenssl \
-        youtube-dl \
  && mkdir -p /var/lib/mopidy/.config \
  && ln -s /config /var/lib/mopidy/.config/mopidy \
     # Clean-up
  && apt-get purge --auto-remove -y \
         curl \
         gcc \
+        build-essential \
+        python3-dev \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
