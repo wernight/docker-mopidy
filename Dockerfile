@@ -76,8 +76,8 @@ EXPOSE 6600 6680 5555/udp
 ######################################
 ########### Snapcast setup ###########
 # Taken and adapted from: https://github.com/nolte/docker-snapcast/blob/master/DockerfileServerX86
-ARG SNAPCASTVERSION
-ARG SNAPCASTDEP_SUFFIX
+ARG SNAPCASTVERSION=0.19.0
+ARG SNAPCASTDEP_SUFFIX=-1
 
 # Download snapcast package
 RUN apt-get update && apt-get install wget -y
