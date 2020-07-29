@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
 RUN set -ex \
     # Official Mopidy install for Debian/Ubuntu along with some extensions
