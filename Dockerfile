@@ -7,11 +7,18 @@ RUN set -ex \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         curl \
         dumb-init \
-        gcc \
         gnupg \
         gstreamer1.0-alsa \
         gstreamer1.0-plugins-bad \
-        python-crypto \
+        python3-crypto \
+        python3-distutils \
+ && curl -L https://bootstrap.pypa.io/get-pip.py | python3 - \
+ && pip install pipenv \
+    # Clean-up
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
+
+RUN set -ex \
  && curl -L https://apt.mopidy.com/mopidy.gpg | apt-key add - \
  && curl -L https://apt.mopidy.com/mopidy.list -o /etc/apt/sources.list.d/mopidy.list \
  && apt-get update \
@@ -19,24 +26,20 @@ RUN set -ex \
         mopidy \
         mopidy-soundcloud \
         mopidy-spotify \
- && curl -L https://bootstrap.pypa.io/get-pip.py | python - \
- && pip install -U six pyasn1 requests[security] cryptography \
- && pip install \
-        Mopidy-Iris \
-        Mopidy-Moped \
-        Mopidy-GMusic \
-        Mopidy-Pandora \
-        Mopidy-YouTube \
-        pyopenssl \
-        youtube-dl \
- && mkdir -p /var/lib/mopidy/.config \
- && ln -s /config /var/lib/mopidy/.config/mopidy \
     # Clean-up
  && apt-get purge --auto-remove -y \
-        curl \
         gcc \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
+
+COPY Pipfile Pipfile.lock /
+
+RUN set -ex \
+ && pipenv install --system --deploy --python=$(which python3)
+
+RUN set -ex \
+ && mkdir -p /var/lib/mopidy/.config \
+ && ln -s /config /var/lib/mopidy/.config/mopidy
 
 # Start helper script.
 COPY entrypoint.sh /entrypoint.sh
