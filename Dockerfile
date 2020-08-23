@@ -40,7 +40,8 @@ RUN set -ex \
 RUN set -ex \
  && mkdir -p /var/lib/mopidy/.config \
  && ln -s /config /var/lib/mopidy/.config/mopidy
-
+RUN python3 -m pip install Mopidy-Local
+RUN python3 -m pip install Mopidy-MPD
 # Start helper script.
 COPY entrypoint.sh /entrypoint.sh
 
