@@ -12,6 +12,7 @@ mopidy-moped = "*"
 mopidy-gmusic = "*"
 mopidy-pandora = "*"
 mopidy-youtube = "*"
+mopidy-local = "*"
 pyopenssl = "*"
 
 [requires]
