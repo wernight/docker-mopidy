@@ -35,7 +35,7 @@ RUN set -ex \
 COPY Pipfile Pipfile.lock /
 
 RUN set -ex \
- && pipenv install --system --deploy --python=$(which python3)
+ && pipenv install --system --deploy
 
 RUN set -ex \
  && mkdir -p /var/lib/mopidy/.config \
