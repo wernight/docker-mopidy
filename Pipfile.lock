@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dfee3fddbc5e076fc8bf4a938dbf634eddf78b3dc5dfdad1abccb922ab2c486f"
+            "sha256": "742646057be0224cd34599722dd93c6bbf0506b16ab174d9d7f37388eca52f73"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -152,7 +152,7 @@
                 "sha256:149c374863eec17cdac5279d57e4905592a9cd74cc34b7e58671cb19f9238f39",
                 "sha256:1c4d6a980625b8ab6f6f1cf3e30d9b10a6c61ababb2b60bfe4870649e9c82be0"
             ],
-            "markers": "python_version >= '3.8' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
             "version": "==1.0.0"
         },
         "httplib2": {
@@ -268,6 +268,14 @@
             "index": "pypi",
             "version": "==0.7.1"
         },
+        "mopidy-mpd": {
+            "hashes": [
+                "sha256:b1fa45ee25d07ef4dcb34758edbcb7fc0a6b669ebfd8472ae0bd7edd388efacc",
+                "sha256:d34011dad9a053c149a408c25b0ff552406513063bc9cdaab2bde30e71f81228"
+            ],
+            "index": "pypi",
+            "version": "==3.1.0"
+        },
         "mopidy-pandora": {
             "hashes": [
                 "sha256:006e7ce7c43e07716620f4a117fb02d9ebc2a90c5f7ce36630d5727d4fc66ef3",
@@ -290,7 +298,7 @@
                 "sha256:6397602efb3c2d7baebd2166ed85731ae1c1d475abca22090b7141ff5034b3e1",
                 "sha256:9c9f243fcec7f410f138cb12c21c84c64fde4195481a30c9bfb05b5f003adfed"
             ],
-            "markers": "python_version >= '3.5' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.5' and python_version < '4.0'",
             "version": "==1.45.1"
         },
         "oauth2client": {
@@ -427,7 +435,7 @@
                 "sha256:81a681adeb539b31dcb9ff3ce453bd19058c6dd4a54540762edc7f5a68d72676",
                 "sha256:da59f77bc6a70e01996259da806d09b0dbc00dabe874ca9558fd5eb1698709c9"
             ],
-            "markers": "python_full_version >= '3.6.1' and python_full_version < '4.0.0'",
+            "markers": "python_version < '4.0' and python_full_version >= '3.6.1'",
             "version": "==3.0.1"
         },
         "pyopenssl": {
@@ -467,7 +475,7 @@
                 "sha256:78f9a9bf4e7be0c5ded4583326e7461e3a3c5aae24073648b4bdfa797d78c9d2",
                 "sha256:9d689e6ca1b3038bc82bf8d23e944b6b6037bc02301a574935b2dd946e0353b9"
             ],
-            "markers": "python_version >= '3.5' and python_full_version < '4.0.0'",
+            "markers": "python_version >= '3.5' and python_version < '4.0'",
             "version": "==4.7.2"
         },
         "six": {
@@ -543,11 +551,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:753a0374df26658f99d826cfe40394a686d05985786d946fbe4165b5148f5a7c",
-                "sha256:a7acd0977125325f516bda9735fa7142b909a8d01e8b2e4c8108d0984e6e0098"
+                "sha256:39fb8672126159acb139a7718dd10806104dec1e2f0f6c88aab05d17df10c8d4",
+                "sha256:f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_full_version < '4.0.0'",
-            "version": "==1.26.5"
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
+            "version": "==1.26.6"
         },
         "validictory": {
             "hashes": [
