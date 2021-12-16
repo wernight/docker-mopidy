@@ -286,12 +286,11 @@
         },
         "mopidy-youtube": {
             "hashes": [
-                "sha256:a9986d8700a9aa2c37f2adb6220aef7a6b0cbfe43464ff0a02b9c4c7c982d594",
-                "sha256:ae7ddce2f1e2d8939d57a5d784abe41830a6081901cabc12219fa9f89a4f94fd",
-                "sha256:c86a63f7ceba3d1fb09cf2ae897d45b569f32aa52dbdc6af6b7ae53cb0e59300"
+                "sha256:b42c11acdfb9ebe8f96455a2bb13325980803a3ed14b5b5b7c9b45677032e73f",
+                "sha256:f7de8c341c8c70aab5c280c62ba8ec9801d2f533a806bc121a03e671286f4d1c"
             ],
             "index": "pypi",
-            "version": "==3.3"
+            "version": "==3.4"
         },
         "mutagen": {
             "hashes": [
