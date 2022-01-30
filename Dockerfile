@@ -33,11 +33,9 @@ RUN set -ex \
        Mopidy-Local \
        Mopidy-Mobile \
        Mopidy-MPD \
-       Mopidy-GMusic \
-       Mopidy-Pandora \
        Mopidy-YouTube \
        Mopidy-TuneIn \
-       Mopidy-Emby \
+       Mopidy-Jellyfin \
        Mopidy-MusicBox-Webclient \
        pyopenssl \
        && mkdir -p /var/lib/mopidy/.config \
@@ -73,7 +71,7 @@ EXPOSE 6600 6680 5555/udp
 ######################################
 ########### Snapcast setup ###########
 # Taken and adapted from: https://github.com/nolte/docker-snapcast/blob/master/DockerfileServerX86
-ARG SNAPCASTVERSION=0.19.0
+ARG SNAPCASTVERSION=0.26.0
 ARG SNAPCASTDEP_SUFFIX=-1
 
 # Download snapcast package
